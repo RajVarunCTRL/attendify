@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import pyautogui
 
+
 path = 'Images_Attendance'
 images = []
 classNames = []
