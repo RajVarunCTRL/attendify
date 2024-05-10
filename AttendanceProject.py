@@ -6,7 +6,7 @@ from datetime import datetime
 import pyautogui
 
 
-path = 'Images_Attendance'
+path = 'imageAttendance'
 images = []
 classNames = []
 myList = os.listdir(path)
