@@ -3,6 +3,7 @@ import numpy as np
 import face_recognition
 import os
 from datetime import datetime
+import pyautogui
 
 path = 'Images_Attendance'
 images = []
@@ -68,6 +69,10 @@ while True:
             markAttendance(name)
     cv2.imshow('webcam', img)
     if cv2.waitKey(10) == 13:
+        break
+    screen_width, screen_height = pyautogui.size()
+    cursor_x, cursor_y = pyautogui.position()
+    if cursor_x >= screen_width - 1 and cursor_y <= 1:
         break
 cap.release()
 cv2.destroyAllWindows()
