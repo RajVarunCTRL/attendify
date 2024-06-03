@@ -53,9 +53,10 @@ encodeListKnown = findEncodings(images)
 print('Encoding Complete')
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FPS, 30)
+cap.set(cv2.CAP_PROP_FPS, 60)
 
 
+# Fail safe trigger function
 def is_failsafe_triggered():
     """Checks if the failsafe condition is met (mouse cursor at the top-right corner)."""
     screen_width, screen_height = pyautogui.size()
@@ -63,18 +64,30 @@ def is_failsafe_triggered():
     return cursor_x >= screen_width - 1 and cursor_y <= 1
 
 
+# More Variables
+processedNames = set()
+frame_count = 0
+process_frame_interval = 10
+
 while True:
     success, img = cap.read()
     if not success:
         print("Failed to capture image")
         break
+    # New Capturing Method
+    frame_count += 1
+    if frame_count % process_frame_interval != 0:
+        cv2.imshow('Webcam', img)
+        if cv2.waitKey(10) == 13 or is_failsafe_triggered():
+            print("Fail Safe Init!...")
+            break
+        continue
 
     imgS = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     facesCurFrame = face_recognition.face_locations(imgS)
     encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
-
     for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
@@ -82,19 +95,49 @@ while True:
         matchIndex = np.argmin(faceDis)
         if matches[matchIndex]:
             name = classNames[matchIndex].upper()
-            print(f"Match found: {name}")
-
-            y1, x2, y2, x1 = [v * 4 for v in faceLoc]
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-            cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
-            markAttendance(name)
+            if name not in processedNames:
+                print(f"Match found: {name}")
+                processedNames.add(name)
+                y1, x2, y2, x1 = [v * 4 for v in faceLoc]
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                markAttendance(name)
 
     cv2.imshow('Webcam', img)
-
+    # Re-Configured to Return Key ( Enter Key )
     if cv2.waitKey(10) == 13 or is_failsafe_triggered():
-        print("Fail Safe Init!...")
+        print("Exiting...")
         break
 
-cap.release()
-cv2.destroyAllWindows()
+# OLD CAPTURING METHOD
+#
+# imgS = cv2.resize(img, (0, 0), fx=0.25, fy=0.25)
+#     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+#
+#     facesCurFrame = face_recognition.face_locations(imgS)
+#     encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+#
+# for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
+#     matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
+#     faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
+#
+#         matchIndex = np.argmin(faceDis)
+#         if matches[matchIndex]:
+#             name = classNames[matchIndex].upper()
+#             print(f"Match found: {name}")
+#
+#             y1, x2, y2, x1 = [v * 4 for v in faceLoc]
+#             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+#             cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+#             cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+#             markAttendance(name)
+#
+#     cv2.imshow('Webcam', img)
+#
+#     if cv2.waitKey(10) == 13 or is_failsafe_triggered():
+#         print("Fail Safe Init!...")
+#         break
+#
+# cap.release()
+# cv2.destroyAllWindows()
