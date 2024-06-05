@@ -25,12 +25,14 @@ FacialAttendanceSystem is a Python application that automates the process of att
 </details>
 
 
-
-## Usage 🤖
+<details>
+<summary><b>Usage 🤖</b></summary>
 
 1. Ensure that your webcam is connected and positioned correctly to capture your face.
 2. Launch the `AttendanceProject.py` script to start the application.
 3. Use the fail-safe mechanisms to safely terminate the application if needed.
+
+</details>
 
 ## Contributing 🤝
 
