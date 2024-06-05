@@ -74,7 +74,7 @@ def is_failsafe_triggered():
 # More Variables
 processedNames = set()
 frame_count = 0
-process_frame_interval = 10  # Captures every 60th frame
+process_frame_interval = 60  # Captures every 60th frame
 
 while True:
     success, img = cap.read()
