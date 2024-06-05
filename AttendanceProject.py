@@ -39,7 +39,7 @@ def findEncodings(images):
 
 
 # Interval time to mark attendance.
-attendance_interval = 60
+attendance_interval = 6
 
 
 def markAttendance(name):
