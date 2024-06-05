@@ -53,7 +53,14 @@ encodeListKnown = findEncodings(images)
 print('Encoding Complete')
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FPS, 60)
+cap.set(cv2.CAP_PROP_FPS, 30)
+# Max PROP CAP (WORKS :) )
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)  # Frame Size
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)  # Frame size
+
+actual_width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+actual_height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+print(f'Actual frame size: {actual_width}x{actual_height}')  # This depends on the MP of your camera...
 
 
 # Fail safe trigger function
@@ -67,7 +74,7 @@ def is_failsafe_triggered():
 # More Variables
 processedNames = set()
 frame_count = 0
-process_frame_interval = 10
+process_frame_interval = 10  # Captures every 60th frame
 
 while True:
     success, img = cap.read()
@@ -77,7 +84,10 @@ while True:
     # New Capturing Method
     frame_count += 1
     if frame_count % process_frame_interval != 0:
+
+        # Video Capture
         cv2.imshow('Webcam', img)
+        cv2.flip(img, 1)
         if cv2.waitKey(10) == 13 or is_failsafe_triggered():
             print("Fail Safe Init!...")
             break
@@ -99,12 +109,11 @@ while True:
                 print(f"Match found: {name}")
                 processedNames.add(name)
                 y1, x2, y2, x1 = [v * 4 for v in faceLoc]
-                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 0, 255), cv2.FILLED)
+                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
                 markAttendance(name)
 
-    cv2.imshow('Webcam', img)
     # Re-Configured to Return Key ( Enter Key )
     if cv2.waitKey(10) == 13 or is_failsafe_triggered():
         print("Exiting...")
