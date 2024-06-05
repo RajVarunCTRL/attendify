@@ -1,4 +1,4 @@
-# Main working directory
+# alpha testing
 import csv
 import cv2
 import numpy as np
