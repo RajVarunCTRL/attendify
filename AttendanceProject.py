@@ -1,3 +1,5 @@
+# Main working directory
+import csv
 import cv2
 import numpy as np
 import face_recognition
@@ -36,17 +38,71 @@ def findEncodings(images):
     return encodeList
 
 
+# Interval time to mark attendance.
+attendance_interval = 60
+
+
 def markAttendance(name):
     """Marks the attendance of the identified person."""
-    with open('Attendance.csv', 'r+') as f:
-        myDataList = f.readlines()
-        nameList = [line.split(',')[0] for line in myDataList]
+    current_time = datetime.now()
+    time_now = current_time.strftime('%H:%M:%S')
+    date_now = current_time.strftime('%d/%m/%Y')
 
-        if name not in nameList:
-            time_now = datetime.now()
-            tString = time_now.strftime('%H:%M:%S')
-            dString = time_now.strftime('%d/%m/%Y')
-            f.writelines(f'\n{name},{tString},{dString}')
+    # Read existing data from the CSV file, if any
+    try:
+        with open('Attendance.csv', 'r') as f:
+            reader = csv.reader(f)
+            myDataList = list(reader)
+    except FileNotFoundError:
+        myDataList = []
+
+    # Initialize empty lists if no data is read
+    if not myDataList:
+        nameList = []
+        timeList = []
+        dateList = []
+    else:
+        nameList = []
+        timeList = []
+        dateList = []
+        for line in myDataList:
+            if line:
+                nameList.append(line[0])
+                timeList.append(line[1])
+                dateList.append(line[2])
+
+    # Checks name is in the attendance list
+    if name in nameList:
+        # Find the last recorded time for the name
+        last_index = len(nameList) - 1 - nameList[::-1].index(name)
+        last_time_str = timeList[last_index]
+        last_date_str = dateList[last_index]
+        last_time = datetime.strptime(f"{last_date_str} {last_time_str}", '%d/%m/%Y %H:%M:%S')
+
+        # Time Difference between the last interval
+        time_diff = (current_time - last_time).total_seconds() / 3600
+
+        # Check if the time interval has not elapsed
+        if time_diff < attendance_interval:
+            print("Attendance already marked, time interval not reached.")
+            # return "Attendance already marked, time interval not reached."
+        # Append the new attendance record to the CSV file
+
+    with open('Attendance.csv', 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow([name, time_now, date_now])
+
+    # Old Method to capture attendance.
+    # with open('Attendance.csv', 'r+') as f:
+    #     myDataList = f.readlines()
+    #     nameList = [line.split(',')[0] for line in myDataList]
+    #
+    #     if name not in nameList:
+    #         time_now = datetime.now()
+    #         tString = time_now.strftime('%H:%M:%S')
+    #         dString = time_now.strftime('%d/%m/%Y')
+    #         f.writelines(f'\n{name},{tString},{dString}')
+    #
 
 
 encodeListKnown = findEncodings(images)
@@ -148,5 +204,5 @@ while True:
 #         print("Fail Safe Init!...")
 #         break
 #
-cap.release()
-cv2.destroyAllWindows()
+# cap.release()
+# cv2.destroyAllWindows()
