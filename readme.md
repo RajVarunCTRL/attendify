@@ -1,4 +1,4 @@
-# A.T.T.E.N.D ify
+# A.T.T.E.N.Dify
 ### Advanced Tracking Technology Ensuring Notable Data
 <div align="center">
 <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
