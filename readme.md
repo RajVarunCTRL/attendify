@@ -1,4 +1,4 @@
-# FacialAttendanceSystem
+# EduGuardSystem
 
 <div align="center">
 <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/PyAutoGUI-used-orange?style=for-the-badge">
 </div>
 
-FacialAttendanceSystem is a Python application that automates the process of attendance marking using facial recognition. It uses the OpenCV library for webcam access and image processing, the `face_recognition` library for detecting and encoding faces, and PyAutoGUI for a failsafe mechanism to terminate the application safely.
+EduGuardSystem is a Python application that automates the process of attendance marking using facial recognition. It uses the OpenCV library for webcam access and image processing, the `face_recognition` library for detecting and encoding faces, and PyAutoGUI for a failsafe mechanism to terminate the application safely.
 <details>
 <summary><b>Features🌟</b></summary>
 
