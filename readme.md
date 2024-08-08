@@ -58,3 +58,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 For any inquiries or support regarding the ATTENDify project, do contact:
 - Discord: [rajgamesyt](https://discord.com/invite/your_server_id)
+
+A long way to go.
