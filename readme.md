@@ -1,5 +1,5 @@
-# Attendify
-
+# A.T.T.E.N.D ify
+### Advanced Tracking Technology Ensuring Notable Data
 <div align="center">
 <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
 <img src="https://forthebadge.com/images/badges/uses-brains.svg" />
@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/PyAutoGUI-used-orange?style=for-the-badge">
 </div>
 
-Attendify is a Python application that automates the process of attendance marking using facial recognition. It uses the OpenCV library for webcam access and image processing, the `face_recognition` library for detecting and encoding faces, and PyAutoGUI for a failsafe mechanism to terminate the application safely.
+ATTENDify is a Python application that automates the process of attendance marking using facial recognition. It uses the OpenCV library for webcam access and image processing, the `face_recognition` library for detecting and encoding faces, and PyAutoGUI for a failsafe mechanism to terminate the application safely.
 <details>
 <summary><b>Features🌟</b></summary>
 
@@ -56,5 +56,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Support
 
-For any inquiries or support regarding the Attendify project, do contact:
+For any inquiries or support regarding the ATTENDify project, do contact:
 - Discord: [rajgamesyt](https://discord.com/invite/your_server_id)
