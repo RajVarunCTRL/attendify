@@ -1,5 +1,5 @@
 # A.T.T.E.N.D. ify
-### Advanced Tracking Technology Ensuring Notable Data
+## Advanced Tracking Technology Ensuring Notable Data
 <div align="center">
 <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
 <img src="https://forthebadge.com/images/badges/uses-brains.svg" />
